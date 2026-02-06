@@ -15,14 +15,14 @@ export default function DBTestPage() {
 
   // 2. DB에서 데이터 불러오기 함수
   async function fetchScores() {
-    const { data } = await supabase.from('typing_scores').select('*').order('created_at', { ascending: false })
+    const { data } = await supabase.from('scores').select('*').order('created_at', { ascending: false })
     if (data) setScores(data)
   }
 
   // 3. DB에 데이터 저장하기 함수
   async function saveScore() {
     if (!name) return alert('이름을 입력하세요')
-    await supabase.from('typing_scores').insert([{ user_name: name, speed: 450, accuracy: 99 }])
+    await supabase.from('scores').insert([{ user_name: name, typing_speed: 450, accuracy: 99 }])
     setName('')
     fetchScores() // 저장 후 다시 불러오기
   }
@@ -47,7 +47,7 @@ export default function DBTestPage() {
       <ul>
         {scores.map((s) => (
           <li key={s.id}>
-            <strong>{s.user_name}</strong>: {s.speed}타 / {s.accuracy}% ({new Date(s.created_at).toLocaleDateString()})
+            <strong>{s.user_name}</strong>: {s.typing_speed}타 / {s.accuracy}% ({new Date(s.created_at).toLocaleDateString()})
           </li>
         ))}
       </ul>
